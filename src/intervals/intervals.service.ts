@@ -7,20 +7,23 @@ import { CreateIntervalDto } from './dto/create-interval.dto';
 export class IntervalsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(dto: CreateIntervalDto) {
-    if (dto.start_page >= dto.end_page) {
-      throw new Error('Start page must be less than end page');
-    }
-
-    await this.prisma.readingInterval.create({
-      data: {
-        userId: dto.user_id,
-        bookId: dto.book_id,
-        startPage: dto.start_page,
-        endPage: dto.end_page,
-      },
-    });
-
-    return { status_code: 'success' };
+// intervals.service.ts
+async create(data: {
+  userId: number;
+  bookId: number;
+  startPage: number;
+  endPage: number;
+}) {
+  if (data.startPage >= data.endPage) {
+    throw new Error('Start page must be less than end page');
   }
-}
+
+  return await this.prisma.readingInterval.create({
+    data: {
+      startPage: data.startPage,
+      endPage: data.endPage,
+      bookId: data.bookId,
+      userId: data.userId,
+    },
+  });
+}}
