@@ -1,3 +1,4 @@
+// src/users/users.service.ts
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -12,7 +13,7 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto) {
-    const { email, username, password } = createUserDto;
+    const { email, username, password, role = 'user' } = createUserDto;
 
     // Check if email already exists
     const existingEmailUser = await this.prisma.user.findUnique({
@@ -30,6 +31,7 @@ export class UserService {
       throw new BadRequestException('Username already taken');
     }
 
+    // Hash password here ONLY
     const hashedPassword = await bcrypt.hash(password, 10);
 
     return this.prisma.user.create({
@@ -37,7 +39,13 @@ export class UserService {
         email,
         username,
         password: hashedPassword,
+        role, 
       },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+      }, 
     });
   }
 
@@ -48,8 +56,10 @@ export class UserService {
   }
 
   async findOneByUsername(username: string) {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { username },
     });
+    console.log('UserService.findOneByUsername:', user);
+    return user;
   }
 }

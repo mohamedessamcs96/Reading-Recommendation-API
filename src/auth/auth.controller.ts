@@ -16,7 +16,7 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    const { email, username, password } = createUserDto;
-    return this.authService.register(email, username, password);
+    const { email, username, password, role } = createUserDto;
+    return this.authService.register(email, username, password, role);
   }
 }
