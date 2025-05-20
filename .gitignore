@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+dist/
+.env
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+
+# Docker
+docker-data/
+
+# Misc
+.DS_Store
+.vscode/
+coverage/
