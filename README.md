@@ -6,12 +6,30 @@ A backend API built with **NestJS** that allows users to log their reading inter
 
 ---
 
-## Features
 
-- Log reading intervals (start page - end page) per book.
-- Role-based authentication (`user`, `admin`) via JWT.
-- Protected endpoints for authorized users.
-- Automatically recommend top 5 books with the most pages read.
+
+
+## Features
+---
+* Role-based authentication using JWT, with two roles: `user` and `admin`.
+* Only authenticated users can submit reading intervals.
+* Only admin users can create and modify books.
+* Each user can submit multiple intervals for the same book.
+* Calculate the top 5 recommended books based on the number of unique pages read by all users.
+* Protected endpoints using role-based access control.
+* Logging and exception handling implemented to improve error reporting and debugging.
+* Unit testing included to ensure the correctness of key functionalities.
+* API implemented using NestJS and Prisma with PostgreSQL as the database.
+* Project supports clean Git history and is structured for maintainability.
+* Docker-ready setup for containerized deployment.
+* Includes a `.md` file with setup and run instructions.
+* Log user reading intervals for specific books (start page to end page).
+
+
+---
+
+Let me know if you’d like to break this into sections (e.g., core features vs. bonus), or customize it for your README.
+
 
 ---
 
