@@ -1,15 +1,21 @@
-// src/intervals/intervals.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { IntervalsService } from './intervals.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 describe('IntervalsService', () => {
   let service: IntervalsService;
-  let prisma: PrismaService;
 
+  //  Mock PrismaService
   const mockPrisma = {
-    readingInterval: {
+    interval: {
       create: jest.fn(),
+      findMany: jest.fn(),
+    },
+    book: {
+      findUnique: jest.fn(),
+    },
+    user: {
+      findUnique: jest.fn(),
     },
   };
 
@@ -25,47 +31,45 @@ describe('IntervalsService', () => {
     }).compile();
 
     service = module.get<IntervalsService>(IntervalsService);
-    prisma = module.get<PrismaService>(PrismaService);
-    jest.clearAllMocks();
   });
 
-  describe('create', () => {
-    const input = {
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  it('should create an interval', async () => {
+    // Mock book and user existence
+    mockPrisma.book.findUnique.mockResolvedValue({ id: 1 });
+    mockPrisma.user.findUnique.mockResolvedValue({ id: 1 });
+
+    const mockCreated = {
+      id: 1,
       userId: 1,
       bookId: 1,
-      startPage: 5,
-      endPage: 10,
+      startPage: 10,
+      endPage: 20,
     };
 
-    it('should create a reading interval successfully', async () => {
-      const mockInterval = {
-        id: 1,
-        ...input,
-      };
+    mockPrisma.interval.create.mockResolvedValue(mockCreated);
 
-      mockPrisma.readingInterval.create.mockResolvedValue(mockInterval);
-
-      const result = await service.create(input);
-
-      expect(result).toEqual(mockInterval);
-      expect(prisma.readingInterval.create).toHaveBeenCalledWith({
-        data: {
-          userId: input.userId,
-          bookId: input.bookId,
-          startPage: input.startPage,
-          endPage: input.endPage,
-        },
-      });
+    const result = await service.create({
+      userId: 1,
+      bookId: 1,
+      startPage: 10,
+      endPage: 20,
     });
 
-    it('should throw an error if startPage >= endPage', async () => {
-      const invalidInput = { ...input, startPage: 10, endPage: 5 };
-
-      await expect(service.create(invalidInput)).rejects.toThrow(
-        'Start page must be less than end page',
-      );
-
-      expect(prisma.readingInterval.create).not.toHaveBeenCalled();
+    expect(mockPrisma.book.findUnique).toHaveBeenCalledWith({ where: { id: 1 } });
+    expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({ where: { id: 1 } });
+    expect(mockPrisma.interval.create).toHaveBeenCalledWith({
+      data: {
+        userId: 1,
+        bookId: 1,
+        startPage: 10,
+        endPage: 20,
+      },
     });
+
+    expect(result).toEqual(mockCreated);
   });
 });

@@ -1,24 +1,21 @@
-Here's a complete and well-structured `README.md` file tailored for your **Reading Recommendation API** using **NestJS**, **Prisma**, **PostgreSQL**, and **JWT Authentication**:
-
----
 
 ````markdown
-#  Reading Recommendation API
+# Reading Recommendation API
 
 A backend API built with **NestJS** that allows users to log their reading intervals and get personalized book recommendations based on their reading habits.
 
 ---
 
-##  Features
+## Features
 
--  Log reading intervals (start page - end page) per book.
--  Role-based authentication (`user`, `admin`) via JWT.
--  Protected endpoints for authorized users.
--  Automatically recommend top 5 books with the most pages read.
+- Log reading intervals (start page - end page) per book.
+- Role-based authentication (`user`, `admin`) via JWT.
+- Protected endpoints for authorized users.
+- Automatically recommend top 5 books with the most pages read.
 
 ---
 
-##  Tech Stack
+## Tech Stack
 
 - **Backend Framework**: [NestJS](https://nestjs.com/)
 - **ORM**: [Prisma](https://www.prisma.io/)
@@ -28,22 +25,22 @@ A backend API built with **NestJS** that allows users to log their reading inter
 
 ---
 
-##  Local Setup
+## Local Setup
 
-### 1️⃣ Clone the repo
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/your-username/reading-recommendation-api.git
 cd reading-recommendation-api
 ````
 
-### 2️⃣ Install dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3️⃣ Set up environment variables
+### 3. Set up environment variables
 
 Create a `.env` file in the root with:
 
@@ -52,13 +49,13 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/reading_db
 JWT_SECRET=your_jwt_secret
 ```
 
-### 4️⃣ Migrate your database
+### 4. Migrate your database
 
 ```bash
 npx prisma migrate dev --name init
 ```
 
-### 5️⃣ Run development server
+### 5. Run development server
 
 ```bash
 npm run start:dev
@@ -66,7 +63,7 @@ npm run start:dev
 
 ---
 
-##  Run with Docker
+## Run with Docker
 
 ```bash
 docker-compose up --build
@@ -79,24 +76,20 @@ This will spin up:
 
 ---
 
-##  Authentication
+## Authentication
 
-###  Register
-
-`POST /auth/register`
+### Register `POST /auth/register`
 
 ```json
 {
-  "email":"email@gmail.com",
+  "email": "email@gmail.com",
   "username": "user1",
   "password": "password",
   "role": "user"
 }
 ```
 
-###  Login
-
-`POST /auth/login`
+### Login `POST /auth/login`
 
 ```json
 {
@@ -105,7 +98,7 @@ This will spin up:
 }
 ```
 
-*Response:*
+Response:
 
 ```json
 {
@@ -113,42 +106,36 @@ This will spin up:
 }
 ```
 
-
-
 ---
-##  Books API
 
- All endpoints require the JWT `access_token` in the `Authorization` header as:
+## Books API
+
+All endpoints require the JWT `access_token` in the `Authorization` header as:
 
 ```
 Authorization: Bearer <token>
 ```
 
-###  Create Books
-
-`POST /books`
+### Create Books `POST /books`
 
 ```json
 {
   "name": "book name",
   "numOfPages": 464
 }
-
 ```
 
 ---
 
-##  Intervals API
+## Intervals API
 
- All endpoints require the JWT `access_token` in the `Authorization` header as:
+All endpoints require the JWT `access_token` in the `Authorization` header as:
 
 ```
 Authorization: Bearer <token>
 ```
 
-###  Create Reading Interval
-
-`POST /intervals`
+### Create Reading Interval `POST /intervals`
 
 ```json
 {
@@ -158,22 +145,16 @@ Authorization: Bearer <token>
 }
 ```
 
+### Get Recommended Books `GET /recommendations`
 
-
-
-###  Get Recommended Books
-
-`GET /recommendations`
-
-Returns the **top 5 books** based on unique pages read.
+Returns the top 5 books based on unique pages read.
 
 ---
 
-##  Project Structure
+## Project Structure
 
 ```
 src/
-│
 ├── auth/               → Auth logic (JWT, Guards, Strategies)
 ├── users/              → User module
 ├── intervals/          → Interval module
@@ -181,12 +162,13 @@ src/
 ├── recommendations/    → Recommendation logic
 ```
 
-
-
 ---
 
-##  Author
+## Author
 
-Made with ❤️ by Mohamed Essam
+Made by Mohamed Essam
 
----
+```
+
+Let me know if you want me to add or adjust anything else!
+```

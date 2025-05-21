@@ -1,4 +1,14 @@
-import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
+// src/books/books.controller.ts
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -11,14 +21,23 @@ export class BooksController {
   // Admin only can create books
   @UseGuards(JwtAuthGuard, RolesGuardFactory(['admin']))
   @Post()
-  createBook(@Body() dto: CreateBookDto) {
-    return this.booksService.createBook(dto);
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  async createBook(@Body() dto: CreateBookDto) {
+    try {
+      return await this.booksService.createBook(dto);
+    } catch (err) {
+      throw new BadRequestException(err.message || 'Failed to create book');
+    }
   }
 
   // Both users and admins can get recommended books
   @UseGuards(JwtAuthGuard, RolesGuardFactory(['user', 'admin']))
   @Get('recommended')
-  getTopBooks() {
-    return this.booksService.getTopBooks();
+  async getTopBooks() {
+    try {
+      return await this.booksService.getTopBooks();
+    } catch (err) {
+      throw new BadRequestException(err.message || 'Failed to fetch recommended books');
+    }
   }
 }
