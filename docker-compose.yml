@@ -1,27 +1,28 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: book_db
+  postgres:
+    image: postgres
+    container_name: reading-recommender
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: MHMDessam
+      POSTGRES_DB: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
 
   app:
     build: .
+    depends_on:
+      - postgres
     ports:
       - "3000:3000"
-    depends_on:
-      - db
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/book_db"
-    command: npm run start:dev
+      DATABASE_URL: postgresql://postgres:MHMDessam@postgres:5432/postgres
+    volumes:
+      - .:/app
 
 volumes:
   pgdata:
