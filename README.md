@@ -28,7 +28,7 @@ A backend API built with **NestJS** that allows users to log their reading inter
 
 ---
 
-Let me know if you’d like to break this into sections (e.g., core features vs. bonus), or customize it for your README.
+
 
 
 ---
@@ -188,5 +188,4 @@ Made by Mohamed Essam
 
 ```
 
-Let me know if you want me to add or adjust anything else!
 ```
