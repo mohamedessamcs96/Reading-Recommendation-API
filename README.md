@@ -1,98 +1,192 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+Here's a complete and well-structured `README.md` file tailored for your **Reading Recommendation API** using **NestJS**, **Prisma**, **PostgreSQL**, and **JWT Authentication**:
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+---
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+````markdown
+#  Reading Recommendation API
 
-## Description
+A backend API built with **NestJS** that allows users to log their reading intervals and get personalized book recommendations based on their reading habits.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+##  Features
 
-```bash
-$ npm install
-```
+-  Log reading intervals (start page - end page) per book.
+-  Role-based authentication (`user`, `admin`) via JWT.
+-  Protected endpoints for authorized users.
+-  Automatically recommend top 5 books with the most pages read.
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+##  Tech Stack
 
-# watch mode
-$ npm run start:dev
+- **Backend Framework**: [NestJS](https://nestjs.com/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Database**: PostgreSQL
+- **Authentication**: JWT (JSON Web Tokens)
+- **Containerization**: Docker & Docker Compose
 
-# production mode
-$ npm run start:prod
-```
+---
 
-## Run tests
+##  Local Setup
+
+### 1️⃣ Clone the repo
 
 ```bash
-# unit tests
-$ npm run test
+git clone https://github.com/your-username/reading-recommendation-api.git
+cd reading-recommendation-api
+````
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2️⃣ Install dependencies
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3️⃣ Set up environment variables
 
-## Resources
+Create a `.env` file in the root with:
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/reading_db
+JWT_SECRET=your_jwt_secret
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 4️⃣ Migrate your database
 
-## Support
+```bash
+npx prisma migrate dev --name init
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 5️⃣ Run development server
 
-## Stay in touch
+```bash
+npm run start:dev
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+##  Run with Docker
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+docker-compose up --build
+```
+
+This will spin up:
+
+* NestJS app on `localhost:3000`
+* PostgreSQL on `localhost:5432`
+
+---
+
+##  Authentication
+
+###  Register
+
+`POST /auth/register`
+
+```json
+{
+  "email":"email@gmail.com",
+  "username": "user1",
+  "password": "password",
+  "role": "user"
+}
+```
+
+###  Login
+
+`POST /auth/login`
+
+```json
+{
+  "username": "user1",
+  "password": "password"
+}
+```
+
+*Response:*
+
+```json
+{
+  "access_token": "<your JWT token>"
+}
+```
+
+
+
+---
+##  Books API
+
+ All endpoints require the JWT `access_token` in the `Authorization` header as:
+
+```
+Authorization: Bearer <token>
+```
+
+###  Create Books
+
+`POST /books`
+
+```json
+{
+  "name": "book name",
+  "numOfPages": 464
+}
+
+```
+
+---
+
+##  Intervals API
+
+ All endpoints require the JWT `access_token` in the `Authorization` header as:
+
+```
+Authorization: Bearer <token>
+```
+
+###  Create Reading Interval
+
+`POST /intervals`
+
+```json
+{
+  "bookId": 1,
+  "startPage": 10,
+  "endPage": 30
+}
+```
+
+
+
+
+###  Get Recommended Books
+
+`GET /recommendations`
+
+Returns the **top 5 books** based on unique pages read.
+
+---
+
+##  Project Structure
+
+```
+src/
+│
+├── auth/               → Auth logic (JWT, Guards, Strategies)
+├── users/              → User module
+├── intervals/          → Interval module
+├── prisma/             → Prisma client service
+├── recommendations/    → Recommendation logic
+```
+
+
+
+---
+
+##  Author
+
+Made with ❤️ by Mohamed Essam
+
+---

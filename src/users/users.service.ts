@@ -1,15 +1,18 @@
-// src/users/users.service.ts
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
   async getUsers() {
-    return this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany();
+    this.logger.log(`Fetched ${users.length} users`);
+    return users;
   }
 
   async createUser(createUserDto: CreateUserDto) {
@@ -20,6 +23,7 @@ export class UserService {
       where: { email },
     });
     if (existingEmailUser) {
+      this.logger.warn(`Email already in use: ${email}`);
       throw new BadRequestException('Email already in use');
     }
 
@@ -28,38 +32,43 @@ export class UserService {
       where: { username },
     });
     if (existingUsernameUser) {
+      this.logger.warn(`Username already taken: ${username}`);
       throw new BadRequestException('Username already taken');
     }
 
-    // Hash password here ONLY
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    return this.prisma.user.create({
+    const newUser = await this.prisma.user.create({
       data: {
         email,
         username,
         password: hashedPassword,
-        role, 
+        role,
       },
       select: {
         id: true,
         username: true,
         role: true,
-      }, 
+      },
     });
+
+    this.logger.log(`Created new user: ${username} with role: ${role}`);
+    return newUser;
   }
 
   async findOneByEmail(email: string) {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
     });
+    this.logger.debug(`findOneByEmail called for: ${email}`);
+    return user;
   }
 
   async findOneByUsername(username: string) {
     const user = await this.prisma.user.findUnique({
       where: { username },
     });
-    console.log('UserService.findOneByUsername:', user);
+    this.logger.debug(`findOneByUsername called for: ${username}`);
     return user;
   }
 }
